@@ -25,44 +25,39 @@
         </style>
     </head>
     <body>
-        <div class="container">
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-        </div>
+        <div class="container"></div>
     </body>
     <script>
         let grid = [
-            [0, 0, 1, 0],
-            [1, 0, 0, 1],
-            [1, 0, 0, 1],
-            [0, 1, 0, 0]
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 0, 0, 0],
+            [0, 0, 1, 0, 0, 1, 0, 0],
+            [0, 0, 1, 0, 0, 1, 0, 0],
+            [0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
         ];
         const HEIGHT = grid.length;
         const WIDTH = grid[0].length;
+
+        const container = document.getElementsByClassName("container")[0];
+        container.style["grid-template-columns"] = `repeat(${WIDTH}, 1fr)`;
+        for (let i = 0; i < HEIGHT * WIDTH; ++i) {
+            let div = document.createElement("div");
+            div.setAttribute("class", "item");
+            container.appendChild(div);
+        }
+
         const CELLS = [...document.getElementsByClassName("item")];
 
         setInterval(() => {
             displayGrid(grid, CELLS);
-            const newGen = [
-                [0, 0, 0, 0],
-                [0, 0, 0, 0],
-                [0, 0, 0, 0],
-                [0, 0, 0, 0]
-            ];
+            const newGen = new Array(HEIGHT);
+            for (let i = 0; i < HEIGHT; ++i) {
+                newGen[i] = new Array(WIDTH);
+            }
+
             for (let y = 0; y < HEIGHT; ++y) {
                 for (let x = 0; x < WIDTH; ++x) {
                     const neighboorsSum =
@@ -95,13 +90,15 @@
         }
 
         function displayGrid(grid, cells) {
-            for (let y = 0; y < HEIGHT; ++y) {
-                for (let x = 0; x < WIDTH; ++x) {
-                    cells[y * HEIGHT + x].classList.remove("dead", "alive");
+            const height = grid.length;
+            for (let y = 0; y < height; ++y) {
+                const width = grid[y].length;
+                for (let x = 0; x < width; ++x) {
+                    cells[y * width + x].classList.remove("dead", "alive");
                     if (getElement(grid, x, y) === 1) {
-                        cells[y * HEIGHT + x].classList.add("alive");
+                        cells[y * width + x].classList.add("alive");
                     } else {
-                        cells[y * HEIGHT + x].classList.add("dead");
+                        cells[y * width + x].classList.add("dead");
                     }
                 }
             }
