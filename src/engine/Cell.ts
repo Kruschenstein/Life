@@ -3,7 +3,7 @@ import CellState from './CellState';
 class Cell {
     private state: CellState = CellState.DEAD;
     private nextState: CellState = CellState.DEAD;
-    private aliveSince: number = 0;
+    private _aliveSince: number = 0;
     public neighboors: Cell[] = [];
 
     computeNextGeneration() {
@@ -22,9 +22,9 @@ class Cell {
 
     mutateToNextGen() {
         if (this.state === this.nextState && this.state === CellState.ALIVE) {
-            this.aliveSince++;
+            this._aliveSince++;
         } else {
-            this.aliveSince = 0;
+            this._aliveSince = 0;
         }
         this.state = this.nextState;
         this.nextState = CellState.DEAD;
@@ -36,6 +36,10 @@ class Cell {
 
     swapState() {
         this.state = this.isAlive() ? CellState.DEAD : CellState.ALIVE;
+    }
+
+    get aliveSince(): number {
+        return this._aliveSince;
     }
 }
 

@@ -21,9 +21,17 @@ class CellView extends React.Component<CellViewProps, {}> {
         this.setState({ type: this.computeState() });
     }
 
+    computeColor(): React.CSSProperties {
+        return {
+            backgroundColor: this.props.cell.isAlive() ?
+                `hsl(${(2 + this.props.cell.aliveSince) * 10}, 100%, 50%)` :
+                `hsl(0, 100%, 90%)`,
+        }
+    }
+
     render() {
         return (
-            <div className={this.props.cell.isAlive() ? 'alive' : 'dead'} onClick={this.swapState}></div>
+            <div className={this.props.cell.isAlive() ? 'alive' : 'dead'} onClick={this.swapState} style={this.computeColor()}></div>
         );
     }
 }

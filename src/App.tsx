@@ -27,7 +27,7 @@ class App extends React.Component<{}, { isPaused: boolean, grid: Grid }> {
       }
       this.state.grid.nextGen();
       this.setState((state) => ({ grid: state.grid }));
-    }, 1000);
+    }, 200);
     document.addEventListener("keydown", this.keyDownSwapPause);
   }
 
