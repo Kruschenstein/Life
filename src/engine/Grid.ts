@@ -1,4 +1,5 @@
-import Cell from "./Cell";
+import Cell from './Cell';
+import { iterate } from '../utils/util';
 
 class Grid {
     private readonly width: number;
@@ -20,7 +21,7 @@ class Grid {
     }
 
     private initCellsNeighboors() {
-        this.iterate(this.grid, (cell, x, y) => {
+        iterate(this.grid, (cell, x, y) => {
             cell.neighboors = [
                 this.getNeighboor(x - 1, y + 1),
                 this.getNeighboor(x, y + 1),
@@ -34,14 +35,6 @@ class Grid {
         });
     }
 
-    private iterate<T>(array: T[][], callback: (elem: T, x: number, y: number) => void) {
-        for (let y = 0; y < array.length; ++y) {
-            for (let x = 0; x < array[y].length; ++x) {
-                callback(array[y][x], x, y);
-            }
-        }
-    }
-
     private getNeighboor(x: number, y: number): Cell | undefined {
         if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
             return undefined;
@@ -50,8 +43,8 @@ class Grid {
     }
 
     nextGen() {
-        this.iterate(this.grid, cell => cell.computeNextGeneration());
-        this.iterate(this.grid, cell => cell.mutateToNextGen());
+        iterate(this.grid, cell => cell.computeNextGeneration());
+        iterate(this.grid, cell => cell.mutateToNextGen());
     }
 
     get cells(): Cell[][] {

@@ -1,14 +1,10 @@
 import CellState from "./CellState";
 
 class Cell {
-    private _state: CellState = CellState.DEAD;
+    private state: CellState = CellState.DEAD;
     private nextState: CellState = CellState.DEAD;
     private aliveSince: number = 0;
     public neighboors: Cell[] = [];
-
-    get state(): CellState {
-        return this.state;
-    }
 
     computeNextGeneration() {
         const numberOfAliveNeighboors = this.neighboors
@@ -25,13 +21,17 @@ class Cell {
     }
 
     mutateToNextGen() {
-        if (this._state === this.nextState && this._state === CellState.ALIVE) {
+        if (this.state === this.nextState && this.state === CellState.ALIVE) {
             this.aliveSince++;
         } else {
             this.aliveSince = 0;
         }
-        this._state = this.nextState;
+        this.state = this.nextState;
         this.nextState = CellState.DEAD;
+    }
+
+    isAlive() {
+        return this.state === CellState.ALIVE;
     }
 }
 
