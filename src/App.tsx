@@ -5,8 +5,11 @@ import Grid from './engine/Grid';
 import { iterate } from './utils/util';
 
 class App extends React.Component<{}, { isPaused: boolean, grid: Grid }> {
-  static readonly HEIGHT = 4;
-  static readonly WIDTH = 4;
+  static readonly HEIGHT = 64;
+  static readonly WIDTH = 64;
+  static readonly STYLE: React.CSSProperties = {
+    gridTemplateColumns: `repeat(${App.WIDTH}, 1fr)`,
+  };
   private timeId?: NodeJS.Timeout;
 
   constructor(props: {}) {
@@ -55,7 +58,7 @@ class App extends React.Component<{}, { isPaused: boolean, grid: Grid }> {
       <div>
         <input id="pause" type="checkbox" checked={this.state.isPaused} onChange={this.swapPause} />
         <label htmlFor="pause">Pause</label>
-        <div className="container">
+        <div className="container" style={App.STYLE}>
           {cells}
         </div>
       </div>
