@@ -1,0 +1,11 @@
+.item {
+    background-color: blue;
+}
+  
+.dead {
+    background-color: darkviolet;
+}
+  
+.alive {
+    background-color: gold;
+}
