@@ -1,4 +1,4 @@
-import CellState from "./CellState";
+import CellState from './CellState';
 
 class Cell {
     private state: CellState = CellState.DEAD;
@@ -32,6 +32,10 @@ class Cell {
 
     isAlive() {
         return this.state === CellState.ALIVE;
+    }
+
+    swapState() {
+        this.state = this.isAlive() ? CellState.DEAD : CellState.ALIVE;
     }
 }
 
