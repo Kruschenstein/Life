@@ -1,8 +1,8 @@
-import React from 'react';
+import * as React from 'react';
 import './App.css';
 import Cell from './Cell';
 
-class App extends React.Component {
+class App extends React.Component<{}, {}> {
   static HEIGHT = 4;
   static WIDTH = 4;
 

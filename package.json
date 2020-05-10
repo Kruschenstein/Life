@@ -30,5 +30,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/jest": "^25.2.1",
+    "source-map-loader": "^0.2.4",
+    "ts-loader": "^7.0.3",
+    "typescript": "^3.8.3"
   }
 }
