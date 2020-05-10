@@ -4,20 +4,56 @@ import CellView from './CellView';
 import Grid from './engine/Grid';
 import { iterate } from './utils/util';
 
-class App extends React.Component<{}, {}> {
+class App extends React.Component<{}, { isPaused: boolean, grid: Grid }> {
   static readonly HEIGHT = 4;
   static readonly WIDTH = 4;
-  private grid = new Grid(App.WIDTH, App.HEIGHT);
+  private timeId?: NodeJS.Timeout;
+
+  constructor(props: {}) {
+    super(props);
+    this.state = {
+      isPaused: false,
+      grid: new Grid(App.WIDTH, App.HEIGHT),
+    };
+  }
+
+  componentDidMount() {
+    this.timeId = setInterval(() => {
+      if (this.state.isPaused) {
+        return;
+      }
+      this.state.grid.nextGen();
+      this.setState((state) => ({ grid: state.grid }));
+    }, 1000);
+    document.addEventListener("keydown", this.keyDownSwapPause);
+  }
+
+  componentWillUnmount() {
+    if (this.timeId) {
+      clearInterval(this.timeId);
+    }
+    document.removeEventListener("keydown", this.keyDownSwapPause);
+  }
+
+  keyDownSwapPause = (event: KeyboardEvent) => {
+    if (event.keyCode === 80) {
+      this.swapPause();
+    }
+  }
+
+  swapPause = () => {
+    this.setState((state) => ({ isPaused: !state.isPaused }))
+  }
 
   render() {
     const cells = new Array(App.HEIGHT * App.WIDTH);
-    iterate(this.grid.cells, (cell, x, y, i) => {
+    iterate(this.state.grid.cells, (cell, x, y, i) => {
       cells[i] = <CellView key={i} cell={cell} />;
     })
-    
+
     return (
       <div>
-        <input id="pause" type="checkbox" />
+        <input id="pause" type="checkbox" checked={this.state.isPaused} onChange={this.swapPause} />
         <label htmlFor="pause">Pause</label>
         <div className="container">
           {cells}
